@@ -456,49 +456,13 @@ int main (int argc, char *argv[]) {
     for(int t = 1; t <= iterations; t++){
       mLogProb = 0;
       std::vector<std::vector<int>> table;
-      // for(int i = 0; i < m+1; i++){
-      //   for(int sl = 0; sl < maxC+1; sl++){
-      //     for(int sc = 0; sc < maxC + 1; sc++){
-      //       lnGVals[i][sl][sc] = -INFINITY;
-      //     }
-      //   }
-      // }
       sampleTable(table,mLogProb,rs,cs,lnHVals,lnGVals,GRBound,verbose);
-      // if(t >= 1212){
-      //   std::cout << "Iteration "<<t<<std::endl;
-      //   sampleTable(table,mLogProb,rs,cs,lnHVals,lnGVals,GRBound,true);
-      // }else{
-      //   sampleTable(table,mLogProb,rs,cs,lnHVals,lnGVals,GRBound,false);
-      // }
-      // if(table[0][3] == 1){
-      //   num_count++;
-      // }
-      // std::cout << "Table sampled with probability " << prob<< " -> "<< (1/prob)<< std::endl;
       if(verbose){
         std::cout << "Table sampled with -ln(p) = " << mLogProb << std::endl;
         print_table(table);
       }
-      // std::cout<< "Hash: "<< zeroOneTableHash(table) << std::endl;
-      // tableHashes.push_back(zeroOneTableHash(table));
       mLogProbs.push_back(mLogProb);
       if(int(std::sqrt(t)) == std::sqrt(t)){
-        // print_table(table);
-        // std::cout << mLogProb << std::endl;
-        // double pSum = std::accumulate(mLogProbs.begin(), mLogProbs.end(), 0.0);
-        // double pMean = pSum / mLogProbs.size();
-        // double dOff = std::floor(pMean/std::log(10));
-        // std::vector<double> amounts;
-        // for(double lP : mLogProbs){
-        //   amounts.push_back(std::exp(lP - dOff*std::log(10)));
-        // }
-        // double sum = std::accumulate(amounts.begin(), amounts.end(), 0.0);
-        // double mean = sum / amounts.size();
-
-        // std::vector<double> diff(amounts.size());
-        // std::transform(amounts.begin(), amounts.end(), diff.begin(), [mean](double x) { return x - mean; });
-        // double sq_sum = std::inner_product(diff.begin(), diff.end(), diff.begin(), 0.0);
-        // double stdev = std::sqrt(sq_sum / amounts.size());
-        // std::cout << "Iteration: " << t <<  " avg: " << mean << "+/-"<< stdev/std::sqrt(amounts.size()) << " x 10^" << dOff << std::endl;
         
         double max = *std::max_element(mLogProbs.begin(),mLogProbs.end());
         std::vector<double> amounts;
@@ -528,36 +492,8 @@ int main (int argc, char *argv[]) {
         if(int(std::sqrt(t)) == int(std::sqrt(iterations))){
           std::cout <<"Final Result: "<< t <<  "," << mean*std::exp(max - dShift*std::log(10)) << "E10+"<< dShift << ","<< stdev/std::sqrt(amounts.size())*std::exp(max - dShift*std::log(10)) << "E10+"<< dShift <<","<<std::exp(max - maxDShift*std::log(10))<<"E+"<<maxDShift<<"," << cv2 <<","<<duration.count()<< std::endl;  
         }
-        // sum = std::accumulate(mLogProbs.begin(), mLogProbs.end(), 0.0);
-        // mean = sum / mLogProbs.size();
-
-        // std::vector<double> pdiff(mLogProbs.size());
-        // std::transform(mLogProbs.begin(), mLogProbs.end(), pdiff.begin(), [mean](double x) { return x - mean; });
-        // sq_sum = std::inner_product(pdiff.begin(), pdiff.end(), pdiff.begin(), 0.0);
-        // stdev = std::sqrt(sq_sum / mLogProbs.size());
-        // std::cout << "Iteration: " << t <<  " avg: " << mean << "+/-"<< stdev/std::sqrt(mLogProbs.size()) << std::endl;
       }
     }
-    // Hash checking
-    // std::vector<int> uniqueHashes;
-    // std::vector<double> uniqueHashProbs;
-    // for(int i = 0; i < tableHashes.size(); i++){
-    //   if (std::find(uniqueHashes.begin(), uniqueHashes.end(), tableHashes[i]) == uniqueHashes.end()) {
-    //     uniqueHashes.push_back(tableHashes[i]);
-    //     uniqueHashProbs.push_back(std::exp(-mLogProbs[i]));
-    //   }
-    // }
-    // for(int i = 0; i < uniqueHashes.size(); i++){
-    //   double probFound = 0;
-    //   for(int hash2: tableHashes){
-    //     if(uniqueHashes[i] == hash2){
-    //       probFound++;
-    //     }
-    //   }
-    //   probFound /= iterations;
-    //   std::cout << uniqueHashes[i] << " " << probFound << " " <<uniqueHashProbs[i]<<std::endl;
-    // }
-    // print_vector(uniqueHashes);
   }
 }
 
