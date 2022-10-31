@@ -19,21 +19,21 @@ def fallingFactorial(x, k):
     return result
 
 
-def logOmegaEC(rs, cs, symmetrize=False):
+def logOmegaEC(rs, cs, swap=True):
     rs = np.array(rs)
     cs = np.array(cs)
-    if symmetrize:
-        return (logOmegaEC(rs, cs, symmetrize=False)+logOmegaEC(cs, rs, symmetrize=False))/2
-    else:
-        m = len(rs)
-        N = np.sum(rs)
-        alphaC = ((1-1/N)+(1-np.sum((cs/N)**2))/m)/(np.sum((cs/N)**2)-1/N)
-        result = -logBinom(N + m*alphaC - 1, m*alphaC - 1)
-        for r in rs:
-            result += logBinom(r + alphaC - 1, alphaC-1)
-        for c in cs:
-            result += logBinom(c + m - 1, m - 1)
-        return result
+    if swap and len(cs) < len(rs): # Swap definitions so that (# rows) <= (# columns) to improve performance
+        rs = np.array(cs)
+        cs = np.array(rs)
+    m = len(rs)
+    N = np.sum(rs)
+    alphaC = ((1-1/N)+(1-np.sum((cs/N)**2))/m)/(np.sum((cs/N)**2)-1/N)
+    result = -logBinom(N + m*alphaC - 1, m*alphaC - 1)
+    for r in rs:
+        result += logBinom(r + alphaC - 1, alphaC-1)
+    for c in cs:
+        result += logBinom(c + m - 1, m - 1)
+    return result
 
 
 def logOmegaGM(rs, cs, symmetrize=False):
