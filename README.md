@@ -1,5 +1,7 @@
 # contingency_count
 
+Run `python example.py` for an example of usage and comparison of methods for estimating the number of contingency tables.
+
 Linear-time and Maximum-Entropy estimates of estimating the number of contingency tables are given in the file `log_Omega_estimates.py`   
 
 Analogous estimates for the number of 0-1 tables are given in `log_Omega_0_estimates.py`  
