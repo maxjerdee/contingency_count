@@ -1,0 +1,9 @@
+clarabel==0.6.0
+cvxpy==1.4.1
+ecos==2.0.12
+numpy==1.26.2
+osqp==0.6.3
+pybind11==2.11.1
+qdldl==0.1.7.post0
+scipy==1.11.4
+scs==3.2.4.post1
