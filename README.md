@@ -18,3 +18,5 @@ The `-t` flag indicates the maximum number of iterations to perform.
 Similar c++ code of the SIS method for 0-1 tables is given in `log_Omega_0_SIS.cpp`, which can be similarly used as:  
 `./log_Omega_0_SIS -i in.txt -o out.csv -t 10000000 -H CGM`
 The new `-H` flag can be used to specify what estimate of logOmega0 is used to generate tables. We recommend using `CGM`, but `ECC` and `GC` are available. 
+
+The `temp_files` directory is used to interface with the c++ code.

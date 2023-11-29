@@ -1,8 +1,10 @@
 import subprocess
 from os.path import join
+import os
 import numpy as np
 import re
 import json
+import tempfile
 
 def log_from_string(value_string,error_string):
     offset = int(re.findall('E10\+[0-9]+',value_string)[0][4:])
@@ -10,25 +12,25 @@ def log_from_string(value_string,error_string):
     lower_value = np.log(float(re.findall('.*E10\+',value_string)[0][:-4])-float(re.findall('.*E10\+',error_string)[0][:-4])) + offset*np.log(10)
     return value, value - lower_value
 
-# inputs_folder = 'inputs'
 def logOmega_SIS(rs,cs,time=60,max_iters=10000000,mode="EC"):
-  outFile = open('tempInput.txt','w')
-  for num in rs:
-    outFile.write(str(num)+' ')
-  outFile.write('\n')
-  for num in cs:
-    outFile.write(str(num)+' ')
-  outFile.write('\n')
-  outFile.close()
+  # Use temporary file to feed in the data (ideally I would bind this properly)
+  with tempfile.NamedTemporaryFile(mode='w',dir="./temp_files",delete=False) as fp:
+    for num in rs:
+      fp.write(str(num)+' ')
+    fp.write('\n')
+    for num in cs:
+      fp.write(str(num)+' ')
+    fp.write('\n')
+    fp.close()
 
-  import subprocess
-  completed_process = subprocess.run(["./contingency_count/log_Omega_SIS", "-i","./tempInput.txt","-w","F","-t",str(max_iters),"-T",str(time),"-M",mode],check=True,capture_output=True)
-  # Generate examples
-  data = completed_process.stdout
-  output_dict = json.loads(data.decode())
-  #print(output_dict)
-  value,error = log_from_string(output_dict['value'],output_dict['error'])
-  return value,error
+    completed_process = subprocess.run(["./contingency_count/log_Omega_SIS", "-i",fp.name,"-w","F","-t",str(max_iters),"-T",str(time),"-M",mode],check=True,capture_output=True)
+    os.remove(fp.name)
+    # Read data
+    data = completed_process.stdout
+    output_dict = json.loads(data.decode())
+
+    value,error = log_from_string(output_dict['value'],output_dict['error'])
+    return value,error
 
 ## IGNORE BEYOND HERE, work in progress
 
