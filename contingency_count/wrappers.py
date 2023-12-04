@@ -4,7 +4,7 @@ import os
 import numpy as np
 import re
 import json
-import tempfile
+import tempfile 
 
 def log_from_string(value_string,error_string):
     offset = int(re.findall('E10\+[0-9]+',value_string)[0][4:])

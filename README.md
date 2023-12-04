@@ -8,7 +8,7 @@ Analogous estimates for the number of 0-1 tables are given in `log_Omega_0_estim
 
 c++ code implementing the SIS method for contingency tables is given in `log_Omega_SIS.cpp` which can be compiled as  
 `g++ -std=c++17 -o log_Omega_SIS log_Omega_SIS.cpp` 
-
+ 
 A typical usage of the compiled script would be:  
 `./log_Omega_SIS -i in.txt -o out.csv -t 10000000`
 
